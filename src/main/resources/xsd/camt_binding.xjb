@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jxb:bindings version="3.0"
+              xmlns:jxb="https://jakarta.ee/xml/ns/jaxb"
+              xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc">
+    <jxb:globalBindings>
+        <xjc:simple/>
+        <xjc:javaType name="java.time.LocalDate" xmlType="xs:date"
+                      adapter="com.marvin.camt.configuration.jaxb.adapter.LocalDateAdapter" />
+        <xjc:javaType name="java.time.LocalDateTime" xmlType="xs:dateTime"
+                      adapter="com.marvin.camt.configuration.jaxb.adapter.LocalDateTimeAdapter" />
+    </jxb:globalBindings>
+</jxb:bindings>
