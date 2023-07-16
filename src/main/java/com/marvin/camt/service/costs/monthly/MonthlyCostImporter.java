@@ -3,6 +3,7 @@ package com.marvin.camt.service.costs.monthly;
 import com.marvin.camt.model.book_entry.BookingEntryDTO;
 import com.marvin.camt.model.book_entry.CreditDebitCodeDTO;
 import com.marvin.camt.service.costs.monthly.dto.MonthlyCostDTO;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 
@@ -13,9 +14,14 @@ import java.util.Set;
 public class MonthlyCostImporter {
 
     private final Set<String> monthlyCostBlockedIbans;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
 
-    public MonthlyCostImporter(Set<String> monthlyCostBlockedIbans) {
+    public MonthlyCostImporter(
+            Set<String> monthlyCostBlockedIbans,
+            KafkaTemplate<String, Object> kafkaTemplate
+    ) {
         this.monthlyCostBlockedIbans = monthlyCostBlockedIbans;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
     public Flux<String> importMonthlyCost(Flux<BookingEntryDTO> bookEntryStream) {
@@ -34,6 +40,7 @@ public class MonthlyCostImporter {
                                 )
                         )
                 )
+                .doOnNext(monthlyCostDTO -> kafkaTemplate.send("com.marvin.costs.monthly", monthlyCostDTO))
                 .map(monthlyCostDTO -> "Processed " + monthlyCostDTO + "!");
     }
 }
