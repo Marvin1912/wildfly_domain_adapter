@@ -32,7 +32,7 @@ public class DirectoryWatcher {
 
     public DirectoryWatcher(
             ApplicationEventPublisher eventPublisher,
-            @Value("${camt.file.import.directory}") String camtFileImportDirectory
+            @Value("${camt.import.file.directory}") String camtFileImportDirectory
     ) {
         this.eventPublisher = eventPublisher;
         this.camtFileImportDirectory = camtFileImportDirectory;

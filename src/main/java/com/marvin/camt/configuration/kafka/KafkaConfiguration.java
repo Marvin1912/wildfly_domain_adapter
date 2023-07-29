@@ -17,8 +17,8 @@ import java.util.Map;
 @Configuration
 public class KafkaConfiguration {
 
-    private KafkaProperties kafkaProperties;
-    private ObjectMapper objectMapper;
+    private final KafkaProperties kafkaProperties;
+    private final ObjectMapper objectMapper;
 
     public KafkaConfiguration(KafkaProperties kafkaProperties, ObjectMapper objectMapper) {
         this.kafkaProperties = kafkaProperties;

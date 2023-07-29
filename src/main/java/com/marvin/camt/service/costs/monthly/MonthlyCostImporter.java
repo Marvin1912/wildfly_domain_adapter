@@ -3,7 +3,8 @@ package com.marvin.camt.service.costs.monthly;
 import com.marvin.camt.model.book_entry.BookingEntryDTO;
 import com.marvin.camt.model.book_entry.CreditDebitCodeDTO;
 import com.marvin.camt.service.costs.monthly.dto.MonthlyCostDTO;
-import org.springframework.kafka.core.KafkaTemplate;
+import jakarta.jms.Destination;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 
@@ -14,14 +15,17 @@ import java.util.Set;
 public class MonthlyCostImporter {
 
     private final Set<String> monthlyCostBlockedIbans;
-    private final KafkaTemplate<String, Object> kafkaTemplate;
+    private final Destination monthlyCostsQueue;
+    private final JmsTemplate jmsTemplate;
 
     public MonthlyCostImporter(
             Set<String> monthlyCostBlockedIbans,
-            KafkaTemplate<String, Object> kafkaTemplate
+            Destination monthlyCostsQueue,
+            JmsTemplate jmsTemplate
     ) {
         this.monthlyCostBlockedIbans = monthlyCostBlockedIbans;
-        this.kafkaTemplate = kafkaTemplate;
+        this.monthlyCostsQueue = monthlyCostsQueue;
+        this.jmsTemplate = jmsTemplate;
     }
 
     public Flux<String> importMonthlyCost(Flux<BookingEntryDTO> bookEntryStream) {
@@ -40,7 +44,7 @@ public class MonthlyCostImporter {
                                 )
                         )
                 )
-                .doOnNext(monthlyCostDTO -> kafkaTemplate.send("com.marvin.costs.monthly", monthlyCostDTO))
+                .doOnNext(monthlyCostDTO -> jmsTemplate.convertAndSend(monthlyCostsQueue, monthlyCostDTO))
                 .map(monthlyCostDTO -> "Processed " + monthlyCostDTO + "!");
     }
 }
