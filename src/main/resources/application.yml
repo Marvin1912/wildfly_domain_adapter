@@ -19,4 +19,4 @@ jms:
   password: password
   queue:
     costs:
-      monthly: jms/queue/exampleQueue
+      monthly: jms/queue/costs/monthly

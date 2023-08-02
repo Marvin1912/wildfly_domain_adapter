@@ -81,7 +81,6 @@ public class JmsConfig {
     public MessageConverter jacksonJmsMessageConverter(ObjectMapper objectMapper) {
         MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
         converter.setTargetType(MessageType.TEXT);
-        converter.setTypeIdPropertyName("_type");
         converter.setEncoding(StandardCharsets.UTF_8.name());
         converter.setObjectMapper(objectMapper);
         return converter;
