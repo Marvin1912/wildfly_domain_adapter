@@ -1,0 +1,14 @@
+camt:
+  import:
+    file:
+      directory: /home/marvin/Downloads
+
+jms:
+  broker-url: remote+https://192.168.178.27:8444,remote+https://192.168.178.27:8445
+  context-factory: org.wildfly.naming.client.WildFlyInitialContextFactory
+  connection-factory: jms/RemoteConnectionFactory
+  username: jms-import
+  password: password
+  queue:
+    costs:
+      monthly: jms/queue/costs/monthly

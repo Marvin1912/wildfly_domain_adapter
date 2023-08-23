@@ -2,55 +2,36 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.1.1'
 	id 'io.spring.dependency-management' version '1.1.0'
-	id 'org.unbroken-dome.xjc' version '2.0.0'
-}
-
-ext {
-	jaxbVersion = '3.0.2'
 }
 
 repositories {
 	mavenCentral()
 }
 
-group = 'com.marvin'
-version = '0.0.1-SNAPSHOT'
+subprojects {
+	apply plugin: 'java'
+	apply plugin: 'org.springframework.boot'
+	apply plugin: 'io.spring.dependency-management'
 
-java {
-	sourceCompatibility = '17'
-}
+	repositories {
+		mavenCentral()
+	}
 
-tasks.withType(JavaCompile).configureEach {
-	options.encoding = 'UTF-8'
-}
+	java {
+		sourceCompatibility = '17'
+	}
 
-dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-webflux'
-	implementation 'org.springframework.boot:spring-boot-starter-artemis'
+	tasks.withType(JavaCompile).configureEach {
+		options.encoding = 'UTF-8'
+	}
 
-	implementation 'org.springframework.kafka:spring-kafka'
+	dependencies {
 
-	implementation group: 'com.sun.xml.bind', name: 'jaxb-xjc', version: jaxbVersion
-	implementation group: 'com.sun.xml.bind', name: 'jaxb-impl', version: jaxbVersion
+		if (name != 'adapter_common') {
+			implementation project(':adapter_common')
+		}
 
-	implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
-
-	implementation group: 'org.wildfly', name: 'wildfly-naming', version: '28.0.1.Final'
-	implementation group: 'org.jboss.marshalling', name: 'jboss-marshalling-river', version: '2.1.1.Final'
-
-	xjcTool group: 'com.sun.xml.bind', name: 'jaxb-xjc', version: jaxbVersion
-	xjcTool group: 'com.sun.xml.bind', name: 'jaxb-impl', version: jaxbVersion
-
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'io.projectreactor:reactor-test'
-	testImplementation 'org.springframework.kafka:spring-kafka-test'
-}
-
-xjc {
-	srcDirName = 'resources/xsd'
-	extension = true
-}
-
-tasks.named('test') {
-	useJUnitPlatform()
+		implementation 'org.springframework.boot:spring-boot-starter-webflux'
+		implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
+	}
 }

@@ -1,1 +1,7 @@
-rootProject.name = 'camt'
+rootProject.name = 'adapter'
+
+include 'adapter_camt'
+include 'adapter_common'
+include 'adapter_jms'
+include 'adapter_consul'
+include 'adapter_application'

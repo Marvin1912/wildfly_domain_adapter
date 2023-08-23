@@ -1,0 +1,23 @@
+plugins {
+    id 'org.unbroken-dome.xjc' version '2.0.0'
+}
+
+ext {
+    jaxbVersion = '3.0.2'
+}
+
+group = 'com.marvin.camt'
+version = '0.0.1-SNAPSHOT'
+
+dependencies {
+    implementation group: 'com.sun.xml.bind', name: 'jaxb-xjc', version: jaxbVersion
+    implementation group: 'com.sun.xml.bind', name: 'jaxb-impl', version: jaxbVersion
+
+    xjcTool group: 'com.sun.xml.bind', name: 'jaxb-xjc', version: jaxbVersion
+    xjcTool group: 'com.sun.xml.bind', name: 'jaxb-impl', version: jaxbVersion
+}
+
+xjc {
+    srcDirName = 'resources/xsd'
+    extension = true
+}
