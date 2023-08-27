@@ -1,7 +1,6 @@
 package com.marvin.app.configuration.costs.monthly;
 
 import com.marvin.app.infrastructure.repository.costs.monthly.MonthlyCostConsulRepository;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -25,9 +24,10 @@ public class MonthlyCostConfig {
 
         String property = monthlyCostConsulRepository.getProperty("iban/blocked");
 
-        LOGGER.log(Level.INFO, "Initialized monthly cost blocked IBANs with: "
-                + (StringUtils.isBlank(property) ? "<empty>" : property) + "!");
+        Set<String> blockedIbans = Set.of(property.split(","));
 
-        return Set.of(property.split(","));
+        LOGGER.log(Level.INFO, "Initialized monthly cost blocked IBANs with: " + blockedIbans + "!");
+
+        return blockedIbans;
     }
 }

@@ -2,8 +2,8 @@ package com.marvin.app.service.costs.monthly;
 
 import com.marvin.camt.model.book_entry.BookingEntryDTO;
 import com.marvin.camt.model.book_entry.CreditDebitCodeDTO;
-import com.marvin.app.service.costs.monthly.dto.MonthlyCostDTO;
-import com.marvin.jms.infrastructure.MonthlyCostDestination;
+import com.marvin.common.costs.monthly.MonthlyCostDTO;
+import com.marvin.jms.infrastructure.costs.monthly.MonthlyCostDestination;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 
@@ -13,22 +13,21 @@ import java.util.Set;
 @Component
 public class MonthlyCostImporter {
 
-    private final Set<String> monthlyCostBlockedIbans;
     private final MonthlyCostDestination monthlyCostDestination;
+    private final Set<String> monthlyCostBlockedIbans;
 
-    public MonthlyCostImporter(
-            Set<String> monthlyCostBlockedIbans,
-            MonthlyCostDestination monthlyCostDestination
-    ) {
-        this.monthlyCostBlockedIbans = monthlyCostBlockedIbans;
+    public MonthlyCostImporter(MonthlyCostDestination monthlyCostDestination, Set<String> monthlyCostBlockedIbans) {
         this.monthlyCostDestination = monthlyCostDestination;
+        this.monthlyCostBlockedIbans = monthlyCostBlockedIbans;
     }
 
     public Flux<String> importMonthlyCost(Flux<BookingEntryDTO> bookEntryStream) {
         return bookEntryStream
 
-                .filter(bookingEntryDTO -> bookingEntryDTO.creditDebitCode() == CreditDebitCodeDTO.DBIT
-                        && !monthlyCostBlockedIbans.contains(bookingEntryDTO.creditIban()))
+                .filter(dto ->
+                        dto.creditDebitCode() == CreditDebitCodeDTO.DBIT
+                                && !monthlyCostBlockedIbans.contains(dto.creditIban())
+                )
 
                 .groupBy(BookingEntryDTO::firstOfMonth)
 

@@ -2,7 +2,7 @@ package com.marvin.jms.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.jms.ConnectionFactory;
-import jakarta.jms.Destination;
+import org.apache.activemq.artemis.jms.client.ActiveMQJMSConnectionFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
 import org.springframework.context.annotation.Bean;
@@ -55,7 +55,8 @@ public class JmsConfig {
             @Value("${jms.connection-factory}") String factoryName
     ) throws NamingException {
 
-        ConnectionFactory connectionFactory = (ConnectionFactory) namingContext.lookup(factoryName);
+        ActiveMQJMSConnectionFactory connectionFactory = (ActiveMQJMSConnectionFactory) namingContext.lookup(factoryName);
+        connectionFactory.setEnable1xPrefixes(false);
 
         UserCredentialsConnectionFactoryAdapter credentialAdapter = new UserCredentialsConnectionFactoryAdapter();
         credentialAdapter.setTargetConnectionFactory(connectionFactory);
@@ -92,13 +93,5 @@ public class JmsConfig {
         JmsTemplate jmsTemplate = new JmsTemplate(connectionFactory);
         jmsTemplate.setMessageConverter(messageConverter);
         return jmsTemplate;
-    }
-
-    @Bean
-    public Destination monthlyCostsQueue(
-            Context namingContext,
-            @Value("${jms.queue.costs.monthly}") String queueName
-    ) throws NamingException {
-        return (Destination) namingContext.lookup(queueName);
     }
 }

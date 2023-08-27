@@ -1,5 +1,6 @@
 package com.marvin.app.service;
 
+import com.marvin.app.service.costs.special.SpecialCostImporter;
 import com.marvin.camt.maintenance.DataMaintainer;
 import com.marvin.camt.model.book_entry.BookingEntryDTO;
 import com.marvin.app.model.event.NewFileEvent;
@@ -24,26 +25,32 @@ public class Delegator {
     private final DocumentUnmarshaller documentUnmarshaller;
     private final DataMaintainer maintainer;
     private final MonthlyCostImporter monthlyCostImporter;
+    private final SpecialCostImporter specialCostImporter;
 
     public Delegator(
             CamtFileParser camtFileParser,
             DocumentUnmarshaller documentUnmarshaller,
             DataMaintainer maintainer,
-            MonthlyCostImporter monthlyCostImporter
+            MonthlyCostImporter monthlyCostImporter,
+            SpecialCostImporter specialCostImporter
     ) {
         this.camtFileParser = camtFileParser;
         this.documentUnmarshaller = documentUnmarshaller;
         this.maintainer = maintainer;
         this.monthlyCostImporter = monthlyCostImporter;
+        this.specialCostImporter = specialCostImporter;
     }
 
     @EventListener(NewFileEvent.class)
     public void startUpWatchService(NewFileEvent newFileEvent) throws Exception {
 
         Flux<BookingEntryDTO> bookingEntryStream = getBookingEntries(Files.newInputStream(newFileEvent.path()))
-                .publish().autoConnect(1);
+                .publish().autoConnect(2);
 
         monthlyCostImporter.importMonthlyCost(bookingEntryStream)
+                .subscribe(LOGGER::info);
+
+        specialCostImporter.importSpecialCost(bookingEntryStream)
                 .subscribe(LOGGER::info);
     }
 

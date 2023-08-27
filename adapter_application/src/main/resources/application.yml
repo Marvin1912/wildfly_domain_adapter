@@ -2,13 +2,26 @@ camt:
   import:
     file:
       directory: /home/marvin/Downloads
+    costs:
+      special:
+        limit: 50
 
 jms:
-  broker-url: remote+https://192.168.178.27:8444,remote+https://192.168.178.27:8445
+  enabled: false
+  broker-url: remote+https://192.168.178.27:8446
   context-factory: org.wildfly.naming.client.WildFlyInitialContextFactory
   connection-factory: jms/RemoteConnectionFactory
   username: jms-import
   password: password
   queue:
     costs:
-      monthly: jms/queue/costs/monthly
+      import:
+        monthly: /jms/queue/costs/import/monthly
+        special: /jms/queue/costs/import/special
+      export:
+        monthly: /jms/queue/costs/export/monthly
+        special: /jms/queue/costs/import/special
+
+influxdb:
+  url: http://192.168.178.27:8086
+  token: x5fqphPd3FsegObAaLRKMjEAAGncJrNgjDsTuvV_BprnRxdm7K4tcTLhjORKtLlmvCXCsR2UnIieQme81U06fg==

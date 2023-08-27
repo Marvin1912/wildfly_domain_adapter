@@ -6,8 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class IbanMaintenance implements BookEntryDataMaintenance {
 
-    @Override
-    public BookingEntryDTO applyToBookEntry(BookingEntryDTO bookingEntry) {
+    private static BookingEntryDTO checkCreditIban(BookingEntryDTO bookingEntry) {
         return bookingEntry.creditIban() == null
                 ? new BookingEntryDTO(
                 bookingEntry.creditDebitCode(),
@@ -18,8 +17,25 @@ public class IbanMaintenance implements BookEntryDataMaintenance {
                 bookingEntry.debitName(),
                 bookingEntry.debitIban(),
                 bookingEntry.creditName(),
-                "n/a"
-        )
-                : bookingEntry;
+                "n/a") : bookingEntry;
+    }
+
+    private static BookingEntryDTO checkDebitIban(BookingEntryDTO bookingEntry) {
+        return bookingEntry.debitIban() == null ?
+                new BookingEntryDTO(
+                        bookingEntry.creditDebitCode(),
+                        bookingEntry.entryInfo(),
+                        bookingEntry.amount(),
+                        bookingEntry.bookingDate(),
+                        bookingEntry.firstOfMonth(),
+                        bookingEntry.debitName(),
+                        "n/a",
+                        bookingEntry.creditName(),
+                        bookingEntry.creditIban()) : bookingEntry;
+    }
+
+    @Override
+    public BookingEntryDTO applyToBookEntry(BookingEntryDTO bookingEntry) {
+        return checkDebitIban(checkCreditIban(bookingEntry));
     }
 }

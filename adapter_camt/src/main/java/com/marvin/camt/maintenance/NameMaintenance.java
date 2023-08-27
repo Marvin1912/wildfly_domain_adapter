@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 public class NameMaintenance implements BookEntryDataMaintenance {
 
     private static String replaceSpaces(String value) {
-        return value == null ? null : value.replaceAll("\\s+", " ");
+        return value == null ? "n/a" : value.replaceAll("\\s+", " ");
     }
 
     @Override

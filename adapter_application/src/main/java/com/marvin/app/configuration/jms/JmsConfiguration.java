@@ -1,16 +1,30 @@
 package com.marvin.app.configuration.jms;
 
+import com.marvin.jms.configuration.Destinations;
 import com.marvin.jms.configuration.JmsConfig;
-import com.marvin.jms.infrastructure.MonthlyCostDestination;
+import com.marvin.jms.infrastructure.costs.monthly.MonthlyCostDestination;
+import com.marvin.jms.infrastructure.costs.monthly.MonthlyCostListener;
+import com.marvin.jms.infrastructure.costs.special.SpecialCostDestination;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-@Import(JmsConfig.class)
+@Import({
+        JmsConfig.class,
+        MonthlyCostListener.class,
+        Destinations.class
+})
 @Configuration
 public class JmsConfiguration {
+
     @Bean
-    public MonthlyCostDestination monthlyCostDestination() {
-        return new MonthlyCostDestination();
+    public MonthlyCostDestination monthlyCostDestination(@Value("${jms.enabled}") boolean jmsEnabled) {
+        return new MonthlyCostDestination(jmsEnabled);
+    }
+
+    @Bean
+    public SpecialCostDestination specialCostDestination(@Value("${jms.enabled}") boolean jmsEnabled) {
+        return new SpecialCostDestination(jmsEnabled);
     }
 }

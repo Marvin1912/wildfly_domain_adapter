@@ -1,4 +1,4 @@
-package com.marvin.app.infrastructure.repository.costs.monthly;
+package com.marvin.app.infrastructure.repository.costs.special;
 
 import com.marvin.consul.model.ConsulKeyValueDTO;
 import com.marvin.consul.repository.BasicConsulRepository;
@@ -16,16 +16,16 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Component
-public class MonthlyCostConsulRepository implements ConsulRepository {
+public class SpecialCostConsulRepository implements ConsulRepository {
 
-    private static final Logger LOGGER = Logger.getLogger(MonthlyCostConsulRepository.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(SpecialCostConsulRepository.class.getName());
 
-    private static final String KEY_PREFIX = "costs/monthly";
+    private static final String KEY_PREFIX = "costs/special";
 
     private Map<String, String> properties;
     private final BasicConsulRepository consulRepository;
 
-    public MonthlyCostConsulRepository(BasicConsulRepository consulRepository) {
+    public SpecialCostConsulRepository(BasicConsulRepository consulRepository) {
         this.properties = new HashMap<>();
         this.consulRepository = consulRepository;
     }
