@@ -4,6 +4,7 @@ import com.marvin.jms.configuration.Destinations;
 import com.marvin.jms.configuration.JmsConfig;
 import com.marvin.jms.infrastructure.costs.monthly.MonthlyCostDestination;
 import com.marvin.jms.infrastructure.costs.monthly.MonthlyCostListener;
+import com.marvin.jms.infrastructure.costs.salary.SalaryDestination;
 import com.marvin.jms.infrastructure.costs.special.SpecialCostDestination;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -27,4 +28,10 @@ public class JmsConfiguration {
     public SpecialCostDestination specialCostDestination(@Value("${jms.enabled}") boolean jmsEnabled) {
         return new SpecialCostDestination(jmsEnabled);
     }
+
+    @Bean
+    public SalaryDestination salaryDestination(@Value("${jms.enabled}") boolean jmsEnabled) {
+        return new SalaryDestination(jmsEnabled);
+    }
+
 }

@@ -26,6 +26,14 @@ public class Destinations {
     }
 
     @Bean
+    public Destination salaryQueueImport(
+            Context namingContext,
+            @Value("${jms.queue.costs.import.salary}") String queueName
+    ) throws NamingException {
+        return (Destination) namingContext.lookup(queueName);
+    }
+
+    @Bean
     public Destination monthlyCostsQueueExport(
             Context namingContext,
             @Value("${jms.queue.costs.export.monthly}") String queueName
@@ -37,6 +45,14 @@ public class Destinations {
     public Destination specialCostsQueueExport(
             Context namingContext,
             @Value("${jms.queue.costs.export.special}") String queueName
+    ) throws NamingException {
+        return (Destination) namingContext.lookup(queueName);
+    }
+
+    @Bean
+    public Destination salaryQueueExport(
+            Context namingContext,
+            @Value("${jms.queue.costs.export.salary}") String queueName
     ) throws NamingException {
         return (Destination) namingContext.lookup(queueName);
     }
