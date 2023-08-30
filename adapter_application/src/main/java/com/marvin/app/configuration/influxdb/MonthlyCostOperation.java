@@ -6,11 +6,11 @@ import com.marvin.influxdb.costs.monthly.service.MonthlyCostImport;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Operation implements JmsOperation<MonthlyCostDTO> {
+public class MonthlyCostOperation implements JmsOperation<MonthlyCostDTO> {
 
     private final MonthlyCostImport monthlyCostImport;
 
-    public Operation(MonthlyCostImport monthlyCostImport) {
+    public MonthlyCostOperation(MonthlyCostImport monthlyCostImport) {
         this.monthlyCostImport = monthlyCostImport;
     }
 

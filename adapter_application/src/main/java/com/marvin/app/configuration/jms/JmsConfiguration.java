@@ -5,6 +5,7 @@ import com.marvin.jms.configuration.JmsConfig;
 import com.marvin.jms.infrastructure.costs.monthly.MonthlyCostDestination;
 import com.marvin.jms.infrastructure.costs.monthly.MonthlyCostListener;
 import com.marvin.jms.infrastructure.costs.salary.SalaryDestination;
+import com.marvin.jms.infrastructure.costs.salary.SalaryListener;
 import com.marvin.jms.infrastructure.costs.special.SpecialCostDestination;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.Import;
 @Import({
         JmsConfig.class,
         MonthlyCostListener.class,
+        SalaryListener.class,
         Destinations.class
 })
 @Configuration

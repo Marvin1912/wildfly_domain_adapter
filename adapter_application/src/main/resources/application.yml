@@ -7,7 +7,7 @@ camt:
         limit: 50
 
 jms:
-  enabled: false
+  enabled: true
   broker-url: remote+https://192.168.178.27:8446
   context-factory: org.wildfly.naming.client.WildFlyInitialContextFactory
   connection-factory: jms/RemoteConnectionFactory
