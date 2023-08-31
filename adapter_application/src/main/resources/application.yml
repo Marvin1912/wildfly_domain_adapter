@@ -1,14 +1,17 @@
+server:
+  port: ${ADAPTER_PORT:9001}
+
 camt:
   import:
     file:
-      directory: /home/marvin/Downloads
+      directory: ${CAMT_DIRECTORY:/camt/data}
     costs:
       special:
         limit: 50
 
 jms:
   enabled: true
-  broker-url: remote+https://192.168.178.27:8446
+  broker-url: ${JMS_URL:remote+https://192.168.178.27:8446}
   context-factory: org.wildfly.naming.client.WildFlyInitialContextFactory
   connection-factory: jms/RemoteConnectionFactory
   username: jms-import
@@ -25,5 +28,5 @@ jms:
         salary: /jms/queue/costs/import/salary
 
 influxdb:
-  url: http://192.168.178.27:8086
-  token: x5fqphPd3FsegObAaLRKMjEAAGncJrNgjDsTuvV_BprnRxdm7K4tcTLhjORKtLlmvCXCsR2UnIieQme81U06fg==
+  url: ${INFLUX_URL:http://192.168.178.27:8086}
+  token: ${INFLUX_TOKEN:x5fqphPd3FsegObAaLRKMjEAAGncJrNgjDsTuvV_BprnRxdm7K4tcTLhjORKtLlmvCXCsR2UnIieQme81U06fg==}
