@@ -1,6 +1,7 @@
 package com.marvin.app.configuration.influxdb;
 
 import com.marvin.influxdb.configuration.InfluxDbConfig;
+import com.marvin.influxdb.costs.daily.service.DailyCostImport;
 import com.marvin.influxdb.costs.monthly.service.MonthlyCostImport;
 import com.marvin.influxdb.costs.salary.service.SalaryImport;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +20,11 @@ public class InfluxDbConfiguration {
     @Bean
     public SalaryImport salaryImport() {
         return new SalaryImport();
+    }
+
+    @Bean
+    public DailyCostImport dailyCostImport() {
+        return new DailyCostImport();
     }
 
 }

@@ -9,6 +9,10 @@ import javax.naming.NamingException;
 
 public class Destinations {
 
+    /*
+    Import
+     */
+
     @Bean
     public Destination monthlyCostsQueueImport(
             Context namingContext,
@@ -33,6 +37,10 @@ public class Destinations {
         return (Destination) namingContext.lookup(queueName);
     }
 
+    /*
+    Export
+     */
+
     @Bean
     public Destination monthlyCostsQueueExport(
             Context namingContext,
@@ -53,6 +61,14 @@ public class Destinations {
     public Destination salaryQueueExport(
             Context namingContext,
             @Value("${jms.queue.costs.export.salary}") String queueName
+    ) throws NamingException {
+        return (Destination) namingContext.lookup(queueName);
+    }
+
+    @Bean
+    public Destination dailyCostsQueueExport(
+            Context namingContext,
+            @Value("${jms.queue.costs.export.daily}") String queueName
     ) throws NamingException {
         return (Destination) namingContext.lookup(queueName);
     }

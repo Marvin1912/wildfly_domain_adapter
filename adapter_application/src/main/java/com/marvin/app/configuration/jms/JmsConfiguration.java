@@ -2,6 +2,7 @@ package com.marvin.app.configuration.jms;
 
 import com.marvin.jms.configuration.Destinations;
 import com.marvin.jms.configuration.JmsConfig;
+import com.marvin.jms.infrastructure.costs.daily.DailyCostListener;
 import com.marvin.jms.infrastructure.costs.monthly.MonthlyCostDestination;
 import com.marvin.jms.infrastructure.costs.monthly.MonthlyCostListener;
 import com.marvin.jms.infrastructure.costs.salary.SalaryDestination;
@@ -16,6 +17,7 @@ import org.springframework.context.annotation.Import;
         JmsConfig.class,
         MonthlyCostListener.class,
         SalaryListener.class,
+        DailyCostListener.class,
         Destinations.class
 })
 @Configuration
