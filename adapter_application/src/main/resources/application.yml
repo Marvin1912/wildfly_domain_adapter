@@ -24,9 +24,9 @@ jms:
         salary: /jms/queue/costs/import/salary
       export:
         monthly: /jms/queue/costs/export/monthly
-        special: /jms/queue/costs/import/special
-        salary: /jms/queue/costs/import/salary
-        daily: /jms/queue/costs/import/daily
+        special: /jms/queue/costs/export/special
+        salary: /jms/queue/costs/export/salary
+        daily: /jms/queue/costs/export/daily
 
 influxdb:
   url: ${INFLUX_URL:http://192.168.178.27:8086}
