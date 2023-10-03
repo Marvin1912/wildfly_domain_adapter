@@ -4,7 +4,8 @@ server:
 camt:
   import:
     file:
-      directory: ${CAMT_DIRECTORY:/camt/data}
+      in: ${CAMT_DIRECTORY_IN:/app/camt}
+      done: ${CAMT_DIRECTORY_DONE:/app/camt/done}
     costs:
       special:
         limit: 50

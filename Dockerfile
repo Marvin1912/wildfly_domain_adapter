@@ -13,6 +13,6 @@ RUN keytool -import -file /app/server.crt \
     -storepass changeit \
     -noprompt
 
-RUN mkdir -p "/camt/data"
+RUN mkdir -p /app/camt/done
 
 ENTRYPOINT ["java", "-jar", "adapter_application.jar"]

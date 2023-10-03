@@ -28,14 +28,17 @@ public class DirectoryWatcher {
     private static final AtomicBoolean IS_RUNNING = new AtomicBoolean();
 
     private final ApplicationEventPublisher eventPublisher;
-    private final String camtFileImportDirectory;
+    private final Path directoryIn;
+    private final Path directoryDone;
 
     public DirectoryWatcher(
             ApplicationEventPublisher eventPublisher,
-            @Value("${camt.import.file.directory}") String camtFileImportDirectory
+            @Value("${camt.import.file.in}") String directoryIn,
+            @Value("${camt.import.file.done}") String directoryDone
     ) {
         this.eventPublisher = eventPublisher;
-        this.camtFileImportDirectory = camtFileImportDirectory;
+        this.directoryIn = Path.of(directoryIn);
+        this.directoryDone = Path.of(directoryDone);
     }
 
     @EventListener(ApplicationReadyEvent.class)
@@ -55,18 +58,19 @@ public class DirectoryWatcher {
 
     private void watchDirectory() throws Exception {
 
-        Path path = Paths.get(camtFileImportDirectory);
-
         WatchService watchService = FileSystems.getDefault().newWatchService();
 
-        path.register(watchService, StandardWatchEventKinds.ENTRY_CREATE);
+        directoryIn.register(watchService, StandardWatchEventKinds.ENTRY_CREATE);
 
         WatchKey key;
         while (IS_RUNNING.get() && (key = watchService.take()) != null) {
             for (WatchEvent<?> event : key.pollEvents()) {
-                Path file = Paths.get(path.toString(), event.context().toString());
+                Path file = Paths.get(directoryIn.toString(), event.context().toString());
                 if (!Files.isDirectory(file)) {
                     eventPublisher.publishEvent(new NewFileEvent(file));
+
+                    Path moved = Files.move(file, directoryDone.resolve(file.getFileName()));
+                    LOGGER.info("Moved {} to {}!", file.getFileName(), moved);
                 }
             }
             key.reset();
