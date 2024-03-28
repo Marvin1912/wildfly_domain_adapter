@@ -2,6 +2,7 @@ package com.marvin.app.configuration.jms;
 
 import com.marvin.jms.configuration.Destinations;
 import com.marvin.jms.configuration.JmsConfig;
+import com.marvin.jms.infrastructure.costs.daily.DailyCostDestination;
 import com.marvin.jms.infrastructure.costs.daily.DailyCostListener;
 import com.marvin.jms.infrastructure.costs.monthly.MonthlyCostDestination;
 import com.marvin.jms.infrastructure.costs.monthly.MonthlyCostListener;
@@ -36,6 +37,11 @@ public class JmsConfiguration {
     @Bean
     public SalaryDestination salaryDestination(@Value("${jms.enabled}") boolean jmsEnabled) {
         return new SalaryDestination(jmsEnabled);
+    }
+
+    @Bean
+    public DailyCostDestination dailyCostDestination(@Value("${jms.enabled}") boolean jmsEnabled) {
+        return new DailyCostDestination(jmsEnabled);
     }
 
 }

@@ -10,6 +10,10 @@ camt:
       special:
         limit: 50
 
+importer:
+  in: ${IMPORTER_IN:/app/import}
+  done: ${IMPORTER_DONE:/app/import/done}
+
 jms:
   enabled: true
   broker-url: ${JMS_URL:remote+https://192.168.178.29:8446}
@@ -23,6 +27,7 @@ jms:
         monthly: /jms/queue/costs/import/monthly
         special: /jms/queue/costs/import/special
         salary: /jms/queue/costs/import/salary
+        daily: /jms/queue/costs/import/daily
       export:
         monthly: /jms/queue/costs/export/monthly
         special: /jms/queue/costs/export/special

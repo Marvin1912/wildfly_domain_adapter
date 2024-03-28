@@ -14,5 +14,6 @@ RUN keytool -import -file /app/server.crt \
     -noprompt
 
 RUN mkdir -p /app/camt/done
+RUN mkdir -p /app/import/done
 
 ENTRYPOINT ["java", "-jar", "adapter_application.jar"]
