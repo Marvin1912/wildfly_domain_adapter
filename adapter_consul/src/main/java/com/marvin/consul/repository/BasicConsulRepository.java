@@ -30,7 +30,7 @@ public class BasicConsulRepository {
 
         HttpRequest httpRequest = HttpRequest.newBuilder()
                 .GET()
-                .uri(new URI("http://192.168.178.27:8500/v1/kv/" + keyPrefix + "?recurse=true"))
+                .uri(new URI("http://192.168.178.29:8500/v1/kv/" + keyPrefix + "?recurse=true"))
                 .build();
 
         HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
