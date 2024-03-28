@@ -31,4 +31,4 @@ jms:
 
 influxdb:
   url: ${INFLUX_URL:http://192.168.178.29:8086}
-  token: ${INFLUX_TOKEN:x5fqphPd3FsegObAaLRKMjEAAGncJrNgjDsTuvV_BprnRxdm7K4tcTLhjORKtLlmvCXCsR2UnIieQme81U06fg==}
+  token: ${INFLUX_TOKEN:rmz5aaaKYSpgvXSO3C1UFZmXjvtpwI81b7hcMaMJJqOTjvgI82iNAbSsF7fpGIy2fduNDKACQ759cyaiECrulg==}
