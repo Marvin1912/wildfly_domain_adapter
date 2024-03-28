@@ -37,6 +37,14 @@ public class Destinations {
         return (Destination) namingContext.lookup(queueName);
     }
 
+    @Bean
+    public Destination dailyCostQueueImport(
+            Context namingContext,
+            @Value("${jms.queue.costs.import.daily}") String queueName
+    ) throws NamingException {
+        return (Destination) namingContext.lookup(queueName);
+    }
+
     /*
     Export
      */

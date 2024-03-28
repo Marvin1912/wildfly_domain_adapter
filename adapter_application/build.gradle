@@ -7,4 +7,5 @@ dependencies {
     implementation project(':adapter_consul')
     implementation project(':adapter_jms')
     implementation project(':adapter_influxdb')
+    implementation project(':adapter_importer')
 }

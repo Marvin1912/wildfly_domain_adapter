@@ -6,4 +6,5 @@ include 'adapter_jms'
 include 'adapter_consul'
 include 'adapter_application'
 include 'adapter_influxdb'
+include 'adapter_importer'
 
