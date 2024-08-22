@@ -1,61 +1,56 @@
 plugins {
-	id 'java'
-	id 'java-library'
-	id 'org.springframework.boot' version '3.1.1'
-	id 'io.spring.dependency-management' version '1.1.0'
-	id 'com.bmuschko.docker-remote-api' version '9.3.2'
+    id 'java'
+    id 'java-library'
+    id 'org.springframework.boot' version '3.1.1'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id 'com.bmuschko.docker-remote-api' version '9.3.2'
 }
 
 import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
 import com.bmuschko.gradle.docker.tasks.image.DockerPushImage
 
 ext {
-	registry = project.registry_local
+    registry = project.registry_local
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 subprojects {
-	apply plugin: 'java'
-	apply plugin: 'java-library'
-	apply plugin: 'org.springframework.boot'
-	apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'java'
+    apply plugin: 'java-library'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
 
-	repositories {
-		mavenCentral()
-	}
+    repositories {
+        mavenCentral()
+    }
 
-	java {
-		sourceCompatibility = '17'
-	}
+    java {
+        sourceCompatibility = '17'
+    }
 
-	tasks.withType(JavaCompile).configureEach {
-		options.encoding = 'UTF-8'
-	}
+    tasks.withType(JavaCompile).configureEach {
+        options.encoding = 'UTF-8'
+    }
 
-	dependencies {
-
-		if (name != 'adapter_common') {
-			implementation project(':adapter_common')
-		}
-
-		implementation 'org.springframework.boot:spring-boot-starter-webflux'
-		implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
-	}
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-webflux'
+        implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
+    }
 }
 
 tasks.register('buildAdapterDockerImage', DockerBuildImage) {
-	dependsOn ':adapter_application:bootJar'
+    dependsOn ':adapter_application:bootJar'
 
-	inputDir = file("$project.rootDir")
-	dockerFile = file("$project.rootDir/Dockerfile")
-	images = ([registry + '/adapter_application:latest'])
+    inputDir = file("$project.rootDir")
+    dockerFile = file("$project.rootDir/Dockerfile")
+    images = ([registry + '/adapter_application:latest'])
 }
 
 tasks.register('pushAdapterDockerImage', DockerPushImage) {
-	dependsOn buildAdapterDockerImage
+    dependsOn buildAdapterDockerImage
 
-	images = new HashSet(["$registry/adapter_application:latest"])
+    images = new HashSet(["$registry/adapter_application:latest"])
 }
