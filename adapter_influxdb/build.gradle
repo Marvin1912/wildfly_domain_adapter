@@ -1,6 +1,0 @@
-group = 'com.marvin.influxdb'
-version = '0.0.1-SNAPSHOT'
-
-dependencies {
-    implementation "com.influxdb:influxdb-client-java:6.6.0"
-}

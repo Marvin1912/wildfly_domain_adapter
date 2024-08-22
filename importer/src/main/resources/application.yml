@@ -1,0 +1,37 @@
+server:
+  port: ${ADAPTER_PORT:9001}
+
+spring:
+  flyway:
+    schemas: public
+    enabled: true
+  datasource:
+    url: ${DATA_SOURCE:jdbc:postgresql://192.168.178.29:5432/costs}
+    username: ${DATA_SOURCE_USERNAME:marvin}
+    password: ${DATA_SOURCE_PASSWORD:password}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+camt:
+  import:
+    file:
+      in: ${CAMT_DIRECTORY_IN:./app/camt}
+      done: ${CAMT_DIRECTORY_DONE:./app/camt/done}
+    costs:
+      special:
+        limit: 50
+
+importer:
+  in: ${IMPORTER_IN:./app/import}
+  done: ${IMPORTER_DONE:./app/import/done}
+
+exporter:
+  folder: ${EXPORTER_FOLDER:./app/export}
+
+influxdb:
+  url: ${INFLUX_URL:http://192.168.178.29:8086}
+  token: ${INFLUX_TOKEN:rmz5aaaKYSpgvXSO3C1UFZmXjvtpwI81b7hcMaMJJqOTjvgI82iNAbSsF7fpGIy2fduNDKACQ759cyaiECrulg==}
+
+consul:
+  url: ${CONSUL_URL:http://192.168.178.29:8500}

@@ -1,0 +1,15 @@
+group = 'com.marvin.app'
+version = '0.0.1-SNAPSHOT'
+
+dependencies {
+    implementation project(':common')
+    implementation project(':influxdb')
+    implementation project(':consul')
+    implementation project(':camt')
+    implementation project(':database')
+    implementation project(':exporter')
+}
+
+bootJar {
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+}

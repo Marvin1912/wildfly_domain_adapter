@@ -1,8 +1,0 @@
-group = 'org.example'
-version = '0.0.1-SNAPSHOT'
-
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-artemis'
-    implementation group: 'org.wildfly', name: 'wildfly-naming', version: '28.0.1.Final'
-    implementation group: 'org.jboss.marshalling', name: 'jboss-marshalling-river', version: '2.1.1.Final'
-}

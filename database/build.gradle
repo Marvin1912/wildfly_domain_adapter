@@ -1,0 +1,8 @@
+group = 'com.marvin'
+version = '0.0.1-SNAPSHOT'
+
+dependencies {
+    api project(':entities')
+    implementation 'org.postgresql:postgresql:42.7.2'
+    implementation 'org.flywaydb:flyway-core'
+}

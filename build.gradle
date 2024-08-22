@@ -37,8 +37,8 @@ subprojects {
 
 	dependencies {
 
-		if (name != 'adapter_common') {
-			implementation project(':adapter_common')
+		if (name != 'common') {
+			implementation project(':common')
 		}
 
 		implementation 'org.springframework.boot:spring-boot-starter-webflux'
@@ -48,15 +48,15 @@ subprojects {
 }
 
 tasks.register('buildAdapterDockerImage', DockerBuildImage) {
-	dependsOn ':adapter_application:bootJar'
+	dependsOn ':importer:bootJar'
 
 	inputDir = file("$project.rootDir")
 	dockerFile = file("$project.rootDir/Dockerfile")
-	images = ([registry + '/adapter_application:latest'])
+	images = ([registry + '/applications:latest'])
 }
 
 tasks.register('pushAdapterDockerImage', DockerPushImage) {
 	dependsOn buildAdapterDockerImage
 
-	images = new HashSet(["$registry/adapter_application:latest"])
+	images = new HashSet(["$registry/applications:latest"])
 }

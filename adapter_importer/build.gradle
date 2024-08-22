@@ -1,6 +1,0 @@
-group = 'com.marvin'
-version = 'unspecified'
-
-dependencies {
-    implementation project(':adapter_jms')
-}
