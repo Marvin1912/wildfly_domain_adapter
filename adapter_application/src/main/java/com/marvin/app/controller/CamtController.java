@@ -26,6 +26,10 @@ public class CamtController {
         this.documentUnmarshaller = documentUnmarshaller;
     }
 
+    private static String replaceSpaces(String value) {
+        return value.replaceAll("\\s+", " ");
+    }
+
     @PostMapping(
             path = "/camt-entries",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
@@ -41,7 +45,7 @@ public class CamtController {
             return DataBufferUtils.join(file.content())
                     .flatMapMany(dataBuffer -> {
 
-                        Flux<ByteArrayOutputStream> using = Flua34539a113e0x.using(
+                        Flux<ByteArrayOutputStream> using = Flux.using(
                                 dataBuffer::asInputStream,
                                 camtFileParser::unzipFile,
                                 inputStream -> {
@@ -59,7 +63,18 @@ public class CamtController {
                     })
                     .flatMap(fileContent -> {
                         try {
-                            return documentUnmarshaller.unmarshallFile(Flux.just(fileContent));
+                            return documentUnmarshaller.unmarshallFile(Flux.just(fileContent))
+                                    .map(bookingEntryDTO -> new BookingEntryDTO(
+                                            bookingEntryDTO.creditDebitCode(),
+                                            bookingEntryDTO.entryInfo(),
+                                            bookingEntryDTO.amount(),
+                                            bookingEntryDTO.bookingDate(),
+                                            bookingEntryDTO.firstOfMonth(),
+                                            replaceSpaces(bookingEntryDTO.debitName()),
+                                            bookingEntryDTO.debitIban(),
+                                            replaceSpaces(bookingEntryDTO.creditName()),
+                                            bookingEntryDTO.creditIban()
+                                    ));
                         } catch (Exception e) {
                             return Flux.error(new RuntimeException("Error while unmarshalling file", e));
                         }
