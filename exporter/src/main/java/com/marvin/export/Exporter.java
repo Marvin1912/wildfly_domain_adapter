@@ -28,7 +28,7 @@ public class Exporter {
     private static final DateTimeFormatter FILE_DTF = DateTimeFormatter.ofPattern("yyyyMMdd_hhmmss");
 
     private static final Function<DailyCostEntity, DailyCostDTO> DAILY_COST_MAPPER = dailyCostEntity ->
-            new DailyCostDTO(dailyCostEntity.getCostDate(), dailyCostEntity.getValue());
+            new DailyCostDTO(dailyCostEntity.getCostDate(), dailyCostEntity.getValue(), dailyCostEntity.getDescription());
     private static final Function<MonthlyCostEntity, MonthlyCostDTO> MONTHLY_COST_MAPPER = monthlyCostEntity ->
             new MonthlyCostDTO(monthlyCostEntity.getCostDate(), monthlyCostEntity.getValue());
     public static final Function<SpecialCostEntryEntity, SpecialCostEntryDTO> SPECIAL_COST_ENTRY_MAPPER = e ->

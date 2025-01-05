@@ -29,13 +29,18 @@ public class DailyCostEntity extends BasicEntity {
     @Column(name = "value")
     private BigDecimal value;
 
+    @Basic
+    @Column(name = "description")
+    private String description;
+
     public DailyCostEntity() {
         // NOOP
     }
 
-    public DailyCostEntity(LocalDate costDate, BigDecimal value) {
+    public DailyCostEntity(LocalDate costDate, BigDecimal value, String description) {
         this.costDate = costDate;
         this.value = value;
+        this.description = description;
     }
 
     public LocalDate getCostDate() {
@@ -54,18 +59,28 @@ public class DailyCostEntity extends BasicEntity {
         this.value = value;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         DailyCostEntity that = (DailyCostEntity) o;
-        return id == that.id && Objects.equals(costDate, that.costDate) && Objects.equals(value, that.value);
+        return id == that.id && Objects.equals(costDate, that.costDate)
+                && Objects.equals(value, that.value)
+                && Objects.equals(description, that.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), id, costDate, value);
+        return Objects.hash(super.hashCode(), id, costDate, value, description);
     }
 
     @Override
@@ -74,6 +89,7 @@ public class DailyCostEntity extends BasicEntity {
                 "id=" + id +
                 ", costDate=" + costDate +
                 ", value=" + value +
+                ", description='" + description + '\'' +
                 '}';
     }
 }

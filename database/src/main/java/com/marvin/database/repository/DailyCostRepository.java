@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface DailyCostRepository extends JpaRepository<DailyCostEntity, Integer> {
 
-    Optional<DailyCostEntity> findByCostDateOrderByCostDate(LocalDate costDate);
+    Optional<DailyCostEntity> findByCostDateAndDescriptionOrderByCostDate(LocalDate costDate, String description);
 
     List<DailyCostEntity> findByCostDateGreaterThanEqualOrderByCostDate(LocalDate localDate);
 

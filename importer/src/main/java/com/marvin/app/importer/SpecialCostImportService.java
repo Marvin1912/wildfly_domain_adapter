@@ -9,6 +9,7 @@ import com.marvin.database.repository.SpecialCostEntryRepository;
 import com.marvin.entities.costs.SpecialCostEntity;
 import com.marvin.entities.costs.SpecialCostEntryEntity;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,19 +25,22 @@ public class SpecialCostImportService implements ImportService<SpecialCostDTO> {
     private final BigDecimal costLimit;
     private final Ibans specialCostBlockedIbans;
     private final SpecialCostEntryRepository specialCostEntryRepository;
+    private final SpecialCostImportService selfReference;
 
     public SpecialCostImportService(
             @Value("${camt.import.costs.special.limit:50}") int costLimit,
             Ibans specialCostBlockedIbans,
-            SpecialCostEntryRepository specialCostEntryRepository
+            SpecialCostEntryRepository specialCostEntryRepository,
+            @Lazy SpecialCostImportService selfReference
     ) {
         this.costLimit = BigDecimal.valueOf(costLimit);
         this.specialCostBlockedIbans = specialCostBlockedIbans;
         this.specialCostEntryRepository = specialCostEntryRepository;
+        this.selfReference = selfReference;
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Flux<String> importSpecialCost(Flux<BookingEntryDTO> bookEntryStream) {
+
         return bookEntryStream
 
                 .filter(dto ->
@@ -47,7 +51,7 @@ public class SpecialCostImportService implements ImportService<SpecialCostDTO> {
 
                 .groupBy(BookingEntryDTO::firstOfMonth)
 
-                .flatMap(group -> group
+                .concatMap(group -> group
                         .reduce(
                                 new SpecialCostDTO(group.key(), new ArrayList<>()),
                                 (specialCost, bookingEntry) -> {
@@ -60,7 +64,7 @@ public class SpecialCostImportService implements ImportService<SpecialCostDTO> {
                                 }
                         )
                 )
-                .doOnNext(this::importData)
+                .doOnNext(selfReference::importData)
                 .map(specialCost -> "Processed " + specialCost + "!");
     }
 
@@ -84,6 +88,7 @@ public class SpecialCostImportService implements ImportService<SpecialCostDTO> {
     }
 
     private void createAndPersistNewEntries(SpecialCostDTO specialCost) {
+
         final SpecialCostEntity specialCostEntity = new SpecialCostEntity();
         specialCostEntity.setCostDate(specialCost.costDate());
 
@@ -93,6 +98,7 @@ public class SpecialCostImportService implements ImportService<SpecialCostDTO> {
     }
 
     private void createAndPersistNewEntries(SpecialCostDTO specialCost, List<SpecialCostEntryEntity> existingEntities) {
+
         for (SpecialCostEntryDTO newEntry : specialCost.entries()) {
             boolean isDuplicate = false;
 
@@ -110,6 +116,7 @@ public class SpecialCostImportService implements ImportService<SpecialCostDTO> {
     }
 
     private void createAndPersist(SpecialCostEntity specialCostEntity, SpecialCostEntryDTO newEntry) {
+
         final SpecialCostEntryEntity specialCostEntryEntity = new SpecialCostEntryEntity();
         specialCostEntryEntity.setDescription(newEntry.description());
         specialCostEntryEntity.setValue(newEntry.value());
