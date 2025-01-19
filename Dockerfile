@@ -4,6 +4,7 @@ WORKDIR /app
 
 RUN mkdir -p /app/camt/done
 RUN mkdir -p /app/import/done
+RUN mkdir -p /app/export
 RUN mkdir -p /app/google
 
 COPY importer/build/libs/importer-*.jar /app/importer.jar

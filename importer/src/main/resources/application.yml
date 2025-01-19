@@ -31,8 +31,8 @@ exporter:
 
 uploader:
   credentials:
-    path: ./app/google/credentials.json
-  cost-export-folder: ./app/export
+    path: ${UPLOADER_CREDENTIALS_PATH:./app/google/credentials.json}
+  cost-export-folder: ${UPLOADER_COST_EXPORT_FOLDER:./app/export}
   parent-folder-name: backup
 
 influxdb:
