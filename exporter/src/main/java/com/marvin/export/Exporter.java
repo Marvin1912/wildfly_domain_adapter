@@ -1,6 +1,10 @@
 package com.marvin.export;
 
-import com.marvin.common.costs.*;
+import com.marvin.common.costs.DailyCostDTO;
+import com.marvin.common.costs.MonthlyCostDTO;
+import com.marvin.common.costs.SalaryDTO;
+import com.marvin.common.costs.SpecialCostDTO;
+import com.marvin.common.costs.SpecialCostEntryDTO;
 import com.marvin.database.repository.DailyCostRepository;
 import com.marvin.database.repository.MonthlyCostRepository;
 import com.marvin.database.repository.SalaryRepository;
@@ -61,7 +65,7 @@ public class Exporter {
         this.salaryRepository = salaryRepository;
     }
 
-    public void exportCosts() {
+    public List<Path> exportCosts() {
 
         String now = LocalDateTime.now().format(FILE_DTF);
         String costExportFolder = exportConfig.getCostExportFolder();
@@ -97,6 +101,9 @@ public class Exporter {
                 () -> salaryRepository.findAll().stream().map(SALARY_MAPPER)
         );
 
+        return List.of(dailyCostsPath, monthlyCostsPath, specialCostsPath, salariesPath).stream()
+                .map(Path::getFileName)
+                .toList();
     }
 
     private <T> void exportCost(Path path, Supplier<Stream<T>> costs) {

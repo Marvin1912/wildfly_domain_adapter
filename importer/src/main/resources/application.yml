@@ -29,6 +29,12 @@ importer:
 exporter:
   folder: ${EXPORTER_FOLDER:./app/export}
 
+uploader:
+  credentials:
+    path: ./app/google/credentials.json
+  cost-export-folder: ./app/export
+  parent-folder-name: backup
+
 influxdb:
   url: ${INFLUX_URL:http://192.168.178.29:8086}
   token: ${INFLUX_TOKEN:rmz5aaaKYSpgvXSO3C1UFZmXjvtpwI81b7hcMaMJJqOTjvgI82iNAbSsF7fpGIy2fduNDKACQ759cyaiECrulg==}

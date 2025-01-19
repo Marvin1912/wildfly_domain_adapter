@@ -8,6 +8,7 @@ dependencies {
     implementation project(':camt')
     implementation project(':database')
     implementation project(':exporter')
+    implementation project(':uploader')
 }
 
 bootJar {
