@@ -6,6 +6,7 @@ import com.marvin.camt.model.book_entry.CreditDebitCodeDTO;
 import com.marvin.common.costs.MonthlyCostDTO;
 import com.marvin.database.repository.MonthlyCostRepository;
 import com.marvin.entities.costs.MonthlyCostEntity;
+import com.marvin.influxdb.costs.monthly.service.MonthlyCostImport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -21,10 +22,16 @@ public class MonthlyCostImportService implements ImportService<MonthlyCostDTO> {
 
     private final Ibans monthlyCostBlockedIbans;
     private final MonthlyCostRepository monthlyCostRepository;
+    private final MonthlyCostImport monthlyCostImport;
 
-    public MonthlyCostImportService(Ibans monthlyCostBlockedIbans, MonthlyCostRepository monthlyCostRepository) {
+    public MonthlyCostImportService(
+            Ibans monthlyCostBlockedIbans,
+            MonthlyCostRepository monthlyCostRepository,
+            MonthlyCostImport monthlyCostImport
+    ) {
         this.monthlyCostBlockedIbans = monthlyCostBlockedIbans;
         this.monthlyCostRepository = monthlyCostRepository;
+        this.monthlyCostImport = monthlyCostImport;
     }
 
     public Flux<String> importMonthlyCost(Flux<BookingEntryDTO> bookEntryStream) {
@@ -65,6 +72,7 @@ public class MonthlyCostImportService implements ImportService<MonthlyCostDTO> {
                 monthlyCostRepository.save(persistedState);
             }
         }
+        monthlyCostImport.importCost(monthlyCost);
     }
 
 }
