@@ -12,6 +12,7 @@ public record BookingEntryDTO(
         String debitName,
         String debitIban,
         String creditName,
-        String creditIban
+        String creditIban,
+        String additionalInfo
 ) {
 }

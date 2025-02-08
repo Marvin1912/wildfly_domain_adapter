@@ -73,7 +73,8 @@ public class CamtController {
                                             replaceSpaces(bookingEntryDTO.debitName()),
                                             bookingEntryDTO.debitIban(),
                                             replaceSpaces(bookingEntryDTO.creditName()),
-                                            bookingEntryDTO.creditIban()
+                                            bookingEntryDTO.creditIban(),
+                                            bookingEntryDTO.additionalInfo()
                                     ));
                         } catch (Exception e) {
                             return Flux.error(new RuntimeException("Error while unmarshalling file", e));

@@ -29,6 +29,10 @@ public class SpecialCostEntryEntity extends BasicEntity {
     private String description;
 
     @Basic
+    @Column(name = "additional_info", nullable = false, length = 2048)
+    private String additionalInfo;
+
+    @Basic
     @Column(name = "value", nullable = false, precision = 2)
     private BigDecimal value;
 
@@ -50,6 +54,14 @@ public class SpecialCostEntryEntity extends BasicEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getAdditionalInfo() {
+        return additionalInfo;
+    }
+
+    public void setAdditionalInfo(String additionalInfo) {
+        this.additionalInfo = additionalInfo;
     }
 
     public BigDecimal getValue() {

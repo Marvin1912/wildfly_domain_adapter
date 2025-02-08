@@ -21,7 +21,8 @@ public class NameMaintenance implements BookEntryDataMaintenance {
                 replaceSpaces(bookingEntry.debitName()),
                 bookingEntry.debitIban(),
                 replaceSpaces(bookingEntry.creditName()),
-                bookingEntry.creditIban()
+                bookingEntry.creditIban(),
+                bookingEntry.additionalInfo()
         );
     }
 }

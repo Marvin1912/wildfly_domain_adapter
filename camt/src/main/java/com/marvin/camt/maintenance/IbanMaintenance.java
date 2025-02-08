@@ -17,7 +17,8 @@ public class IbanMaintenance implements BookEntryDataMaintenance {
                 bookingEntry.debitName(),
                 bookingEntry.debitIban(),
                 bookingEntry.creditName(),
-                "n/a") : bookingEntry;
+                "n/a", bookingEntry.additionalInfo()
+        ) : bookingEntry;
     }
 
     private static BookingEntryDTO checkDebitIban(BookingEntryDTO bookingEntry) {
@@ -31,7 +32,8 @@ public class IbanMaintenance implements BookEntryDataMaintenance {
                         bookingEntry.debitName(),
                         "n/a",
                         bookingEntry.creditName(),
-                        bookingEntry.creditIban()) : bookingEntry;
+                        bookingEntry.creditIban(), bookingEntry.additionalInfo()
+                ) : bookingEntry;
     }
 
     @Override

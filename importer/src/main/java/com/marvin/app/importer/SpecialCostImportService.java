@@ -57,8 +57,10 @@ public class SpecialCostImportService implements ImportService<SpecialCostDTO> {
                                 (specialCost, bookingEntry) -> {
                                     specialCost.entries()
                                             .add(new SpecialCostEntryDTO(
-                                                    bookingEntry.entryInfo() + " - " + bookingEntry.creditName(),
-                                                    bookingEntry.amount())
+                                                            bookingEntry.entryInfo() + " - " + bookingEntry.creditName(),
+                                                            bookingEntry.amount(),
+                                                            bookingEntry.additionalInfo()
+                                                    )
                                             );
                                     return specialCost;
                                 }
@@ -74,14 +76,13 @@ public class SpecialCostImportService implements ImportService<SpecialCostDTO> {
 
         final List<SpecialCostEntryEntity> specialCostEntryEntities = specialCostEntryRepository.findBySpecialCostCostDate(specialCost.costDate());
 
-        final List<SpecialCostEntryDTO> newEntries = specialCost.entries();
-
         // This means no special costs exist, so new ones need to be created
         if (specialCostEntryEntities.isEmpty()) {
             createAndPersistNewEntries(specialCost);
             return;
         }
 
+        final List<SpecialCostEntryDTO> newEntries = specialCost.entries();
         if (specialCostEntryEntities.size() < newEntries.size()) {
             createAndPersistNewEntries(specialCost, specialCostEntryEntities);
         }
@@ -119,6 +120,7 @@ public class SpecialCostImportService implements ImportService<SpecialCostDTO> {
 
         final SpecialCostEntryEntity specialCostEntryEntity = new SpecialCostEntryEntity();
         specialCostEntryEntity.setDescription(newEntry.description());
+        specialCostEntryEntity.setAdditionalInfo(newEntry.additionalInfo());
         specialCostEntryEntity.setValue(newEntry.value());
         specialCostEntryEntity.setSpecialCost(specialCostEntity);
 

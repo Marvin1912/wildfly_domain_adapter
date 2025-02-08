@@ -12,6 +12,7 @@ import iso.std.iso._20022.tech.xsd.camt_052_001.EntryDetails9;
 import iso.std.iso._20022.tech.xsd.camt_052_001.EntryTransaction10;
 import iso.std.iso._20022.tech.xsd.camt_052_001.Party40Choice;
 import iso.std.iso._20022.tech.xsd.camt_052_001.PartyIdentification135;
+import iso.std.iso._20022.tech.xsd.camt_052_001.RemittanceInformation16;
 import iso.std.iso._20022.tech.xsd.camt_052_001.ReportEntry10;
 import iso.std.iso._20022.tech.xsd.camt_052_001.TransactionParties6;
 import jakarta.xml.bind.JAXBContext;
@@ -110,6 +111,13 @@ public class DocumentUnmarshaller {
                 AccountIdentification4Choice::getIBAN
         );
 
+        String additionalInfo = NullSafeUtil.eval(
+                null,
+                entryTransaction.getRmtInf(),
+                RemittanceInformation16::getUstrds,
+                strings -> String.join(", ", strings)
+        );
+
         return new BookingEntryDTO(
                 CreditDebitCodeDTO.fromValue(creditDebitCode),
                 entryInfo,
@@ -119,7 +127,8 @@ public class DocumentUnmarshaller {
                 debitName,
                 debitIban,
                 creditName,
-                creditIban
+                creditIban,
+                additionalInfo
         );
     }
 

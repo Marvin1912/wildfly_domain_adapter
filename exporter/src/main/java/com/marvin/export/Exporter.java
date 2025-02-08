@@ -36,7 +36,7 @@ public class Exporter {
     private static final Function<MonthlyCostEntity, MonthlyCostDTO> MONTHLY_COST_MAPPER = monthlyCostEntity ->
             new MonthlyCostDTO(monthlyCostEntity.getCostDate(), monthlyCostEntity.getValue());
     public static final Function<SpecialCostEntryEntity, SpecialCostEntryDTO> SPECIAL_COST_ENTRY_MAPPER = e ->
-            new SpecialCostEntryDTO(e.getDescription(), e.getValue());
+            new SpecialCostEntryDTO(e.getDescription(), e.getValue(), e.getAdditionalInfo());
     public static final Function<Map.Entry<LocalDate, List<SpecialCostEntryDTO>>, SpecialCostDTO> SPECIAL_COST_MAPPER = e ->
             new SpecialCostDTO(e.getKey(), e.getValue());
     public static final Function<SalaryEntity, SalaryDTO> SALARY_MAPPER = salaryEntity ->
